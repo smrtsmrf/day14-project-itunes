@@ -15,8 +15,28 @@
           </div>
           <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
-              <input type="text" class="form-control" ng-model="artist" placeholder="Artist Name" >
+              <input type="text" class="form-control" ng-model="artist" placeholder="Search for Artist" >
+              <select class="form-control" ng-model="typeOfData" ng-change="getSong()">
+                  <option value="" selected="">All</option>
+                  <option value="musicVideo" selected="">Music Video</option>
+                  <option value="movie">Movie</option>
+                  <option value="musicTrack">Music</option>
+                  <option value="podcast">Podcast</option>
+                  <option value="tvShow">TV Show</option>
+              </select>
+
               <button class="btn btn-primary" ng-click="getSongData()"> Submit </button>
+              <!-- comment this out if you want to use ng-grid filtering -->
+              <select class="input-medium form-control" ng-model="sortProp">
+                <option value="Song">Song</option>
+                <option value="Genre">Genre</option>
+                <option value="Collection">Collection</option>
+                <option value="Type">Type</option>
+                <option value="Explicit">Explicit</option>
+                <option value="TrackPrice">Track Price</option>
+                <option value="CollectionPrice">Collection Price</option>
+            </select>
+              <input type="text" class="form-control" ng-model='filterOptions.filterText' placeholder="Filter by..."/>
             </div>
           </form>
         </div>

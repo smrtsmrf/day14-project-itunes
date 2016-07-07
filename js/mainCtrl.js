@@ -2,16 +2,33 @@ angular.module('itunes').controller('mainCtrl', function($scope, itunesService){
   //This is setting up the default behavior of our ng-grid. The important thing to note is
   //the 'data' property. The value is 'songData'. That means ng-grid is looking for songData on $scope and is putting whatever songData is into the grid.
   //this means when you make your iTunes request, you'll need to get back the information, parse it accordingly, then set it to songData on the scope -> $scope.songData = ...
+
+  $scope.sortProp = 'Song';
+
+  // comment this out if you want to use ng-grid built in filtering
+  $scope.filterOptions = {
+    filterText: $scope.typeOfData
+  };
+
+
   $scope.gridOptions = { 
+      enableColumnResize: true,
       data: 'songData',
+      filterOptions: $scope.filterOptions,
+      // filterOptions: {filterText: '', useExternalFilter: false},
+      // showFilter: true,
       height: '110px',
-      sortInfo: {fields: ['Song', 'Artist', 'Collection', 'Type'], directions: ['asc']},
+      sortInfo: {fields: ['Song', 'Artist', 'Collection', 'Type', 'Genre', 'TrackPrice', 'CollectionPrice', 'Explicit'], directions: ['asc']},
       columnDefs: [
         {field: 'Play', displayName: 'Play', width: '40px', cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="{{row.getProperty(col.field)}}"><img src="http://www.icty.org/x/image/Miscellaneous/play_icon30x30.png"></a></div>'},
+        {field: 'Song', displayName: 'Song'},
         {field: 'Artist', displayName: 'Artist'},
+        {field: 'Genre', displayName: 'Genre'},
         {field: 'Collection', displayName: 'Collection'},
         {field: 'AlbumArt', displayName: 'Album Art', width: '110px', cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><img src="{{row.getProperty(col.field)}}"></div>'},
         {field: 'Type', displayName: 'Type'},
+        {field: 'Explicit', displayName: 'Explicit'},
+        {field: 'TrackPrice', displayName: 'Track Price'},
         {field: 'CollectionPrice', displayName: 'Collection Price'},
       ]
   };
@@ -28,6 +45,11 @@ angular.module('itunes').controller('mainCtrl', function($scope, itunesService){
   //Also note that that method should be retuning a promise, so you could use .then in this function.
     
     //Code here
+    $scope.getSongData = function () {
+      itunesService.getArtist($scope.artist).then(function (data) {
+              $scope.songData = data;
+      })
+    }
 
 
   //Check that the above method is working by entering a name into the input field on your web app, and then console.log the result
@@ -54,6 +76,9 @@ angular.module('itunes').controller('mainCtrl', function($scope, itunesService){
 
     //Code here
 });
+
+
+
 
 
 
