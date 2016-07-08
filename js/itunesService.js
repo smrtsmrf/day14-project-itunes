@@ -17,19 +17,16 @@ angular.module('itunes').service('itunesService', function($http, $q){
     		url: 'https://itunes.apple.com/search?term=' + artist + media + '&callback=JSON_CALLBACK'
     	}).then(function (response) {
     		var result = response.data.results;
-        // console.log(result);
     		var formattedResult = [];
     		
     		for (var obj in result) {
     			formattedResult.push(new FormattedArtist(result[obj]))
-          // console.log(formattedResult);
     		}
 
     		defer.resolve(formattedResult);
     	})
     	return defer.promise;
     }
-
 
     var FormattedArtist = function (artistInfo) {
       this.AlbumArt = artistInfo.artworkUrl60;
