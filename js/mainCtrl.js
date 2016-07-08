@@ -3,12 +3,14 @@ angular.module('itunes').controller('mainCtrl', function($scope, itunesService){
   //the 'data' property. The value is 'songData'. That means ng-grid is looking for songData on $scope and is putting whatever songData is into the grid.
   //this means when you make your iTunes request, you'll need to get back the information, parse it accordingly, then set it to songData on the scope -> $scope.songData = ...
 
-  $scope.sortProp = 'Song';
+  $scope.filterColumn = 'Song';
+
 
   // comment this out if you want to use ng-grid built in filtering
   $scope.filterOptions = {
-    filterText: $scope.typeOfData
-  };
+        filterText: ''
+    };
+    // console.log($scope.filterOptions.filterText);
 
 
   $scope.gridOptions = { 
@@ -18,7 +20,7 @@ angular.module('itunes').controller('mainCtrl', function($scope, itunesService){
       // filterOptions: {filterText: '', useExternalFilter: false},
       // showFilter: true,
       height: '110px',
-      sortInfo: {fields: ['Song', 'Artist', 'Collection', 'Type', 'Genre', 'TrackPrice', 'CollectionPrice', 'Explicit'], directions: ['asc']},
+      // sortInfo: {fields: ['Song', 'Artist', 'Collection', 'Type', 'Genre', 'TrackPrice', 'CollectionPrice', 'Explicit'], directions: ['asc']},
       columnDefs: [
         {field: 'Play', displayName: 'Play', width: '40px', cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a href="{{row.getProperty(col.field)}}"><img src="http://www.icty.org/x/image/Miscellaneous/play_icon30x30.png"></a></div>'},
         {field: 'Song', displayName: 'Song'},
@@ -45,12 +47,20 @@ angular.module('itunes').controller('mainCtrl', function($scope, itunesService){
   //Also note that that method should be retuning a promise, so you could use .then in this function.
     
     //Code here
-    $scope.getSongData = function () {
-      itunesService.getArtist($scope.artist).then(function (data) {
+    $scope.getSongData = function (typeFilter) {
+      $scope.filterOptions.filterText = ''
+      $scope.filterColumn = 'Song';
+      itunesService.getArtist($scope.artist, typeFilter).then(function (data) {
               $scope.songData = data;
       })
     }
 
+
+    $scope.fixFilter = function (col, text) {
+      $scope.filterOptions.filterText = ''
+
+      $scope.filterOptions.filterText = $scope.filterColumn + ': ' + $scope.filterOptions.filterText
+    }
 
   //Check that the above method is working by entering a name into the input field on your web app, and then console.log the result
 
