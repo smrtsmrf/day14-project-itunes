@@ -31,6 +31,7 @@
               <button class="btn btn-primary" ng-click="getSongData(typeOfData)"> Submit </button>
               <!-- comment this out if you want to use ng-grid filtering -->
               <select class="input-medium form-control" ng-model="filterColumn" ng-change="fixFilter(filterColumn, filterOptions.filterText)">
+                <option value="">All</option>
                 <option value="Song">Song Name</option>
                 <option value="Genre">Genre</option>
                 <option value="Collection">Collection</option>

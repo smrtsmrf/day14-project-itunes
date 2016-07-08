@@ -3,7 +3,7 @@ angular.module('itunes').controller('mainCtrl', function($scope, itunesService){
   //the 'data' property. The value is 'songData'. That means ng-grid is looking for songData on $scope and is putting whatever songData is into the grid.
   //this means when you make your iTunes request, you'll need to get back the information, parse it accordingly, then set it to songData on the scope -> $scope.songData = ...
 
-  $scope.filterColumn = 'Song';
+  // $scope.filterColumn = 'All';
 
 
   // comment this out if you want to use ng-grid built in filtering
@@ -49,7 +49,7 @@ angular.module('itunes').controller('mainCtrl', function($scope, itunesService){
     //Code here
     $scope.getSongData = function (typeFilter) {
       $scope.filterOptions.filterText = ''
-      $scope.filterColumn = 'Song';
+      // $scope.filterColumn = 'Song';
       itunesService.getArtist($scope.artist, typeFilter).then(function (data) {
               $scope.songData = data;
       })
@@ -57,9 +57,10 @@ angular.module('itunes').controller('mainCtrl', function($scope, itunesService){
 
 
     $scope.fixFilter = function (col, text) {
-      $scope.filterOptions.filterText = ''
-
+      $scope.filterOptions.filterText = '';
+      if (col) { 
       $scope.filterOptions.filterText = $scope.filterColumn + ': ' + $scope.filterOptions.filterText
+    }
     }
 
   //Check that the above method is working by entering a name into the input field on your web app, and then console.log the result
